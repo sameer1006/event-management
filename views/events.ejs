@@ -18,21 +18,18 @@
             <% let flag=-1; %> 
             <% for(let j=0;j<allDates.length;j++){ %> 
                 <% console.log(j); %>
-                <% if((events[i].eventDate)==allDates[j]) {%>
+                <% if(events[i].eventDate.getDate()==allDates[j].getDate()) {%>
                     <% flag=0; %> 
-                    <% console.log(flag); %> 
                     <% break; %>  
                 <% } %> 
             <% } %> 
             <% if(flag==-1){ %> 
                 <% allDates.push(events[i].eventDate) %> 
-                <% console.log(flag); %> 
-                <% console.log(allDates); %> 
                 <ul class="events-listed">
                     <li class="events-date-indicator"><%= events[i].eventWeekdayDate %> , <%=events[i].eventMonthDate  %>  <%= events[i].eventNumDate %> </li>
                     <ul class="events-listing-container">
                     <% for(let z=i;z<events.length;z++){ %> 
-                        <% if(events[i].eventDate===events[z].eventDate){ %> 
+                        <% if(events[i].eventDate.getDate()===events[z].eventDate.getDate()){ %> 
                             <li class="event-listed">
                                 <a href="">
                                     <div class="event-card">
