@@ -1,0 +1,51 @@
+<%- include("header") -%>
+
+<div class="event-page-banner-container">
+    <div class="text-overlay-container">
+        <div class="text-overlay-text">
+            Add your next event
+        </div>
+        <div class="text-overlay-searchbar">
+            <input type="text" placeholder="Search">
+            <!-- search icon -->
+        </div>
+    </div>
+</div>
+
+        <div>
+            <form action="/eventadd" method="POST">
+                <div>
+                    <label class="form-check-label">Name of Event</label>
+                    <input type="text" name="eventName" placeholder="Enter the event Name">
+                </div>
+                
+                <div>
+                    <label class="form-check-label">Club Organising</label>
+                    <input type="text" name="eventOrg" placeholder="Orginiser Name">
+                </div>
+                
+                <div>
+                    <label class="form-check-label" >When's the event?</label>
+                    <input type="date" name="eventDate" placeholder="Enter the date you want to oragnise it">
+                </div>
+                
+                <div>
+                    <label class="form-check-label" >Guest of the Event</label>
+                    <input type="text" name="eventGuest">
+                </div>
+                
+                <div>
+                    <label class="form-check-label">Event Starting Time</label>
+                    <input type="time" name="eventStartTime" min="09:00" max="16:00">
+                </div>
+                
+                <div>
+                    <label class="form-check-label" >Event Ending Time</label>
+                    <input type="time" name="eventEndTime" min="09:00" max="16:00">
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        

@@ -13,226 +13,67 @@
     </div>
 
     <div class="events-view">
-        <ul class="events-listed">
-            <li class="events-date-indicator">Friday, May 21</li>
-            <ul class="events-listing-container">
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>Join the HR Analytics WhatsApp group </span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
+        <% allDates=[]; %> 
+        <% for(let i=0;i<events.length;i++){ %>
+            <% let flag=-1; %> 
+            <% for(let j=0;j<allDates.length;j++){ %> 
+                <% console.log(j); %>
+                <% if((events[i].eventDate)==allDates[j]) {%>
+                    <% flag=0; %> 
+                    <% console.log(flag); %> 
+                    <% break; %>  
+                <% } %> 
+            <% } %> 
+            <% if(flag==-1){ %> 
+                <% allDates.push(events[i].eventDate) %> 
+                <% console.log(flag); %> 
+                <% console.log(allDates); %> 
+                <ul class="events-listed">
+                    <li class="events-date-indicator"><%= events[i].eventWeekdayDate %> , <%=events[i].eventMonthDate  %>  <%= events[i].eventNumDate %> </li>
+                    <ul class="events-listing-container">
+                    <% for(let z=i;z<events.length;z++){ %> 
+                        <% if(events[i].eventDate===events[z].eventDate){ %> 
+                            <li class="event-listed">
+                                <a href="">
+                                    <div class="event-card">
+                                        <span class="event-time">
+                                            <%= events[z].eventStartTime %>
                                         </span>
-                                        <span>5</span>
+                                        <div class="event-card--row">
+                                            <div class="event-organisor">
+                                                <span><%= events[z].eventOrg %></span>
+                                            </div>
+                                            <div class="event-title">
+                                                <span><%= events[z].eventName %> </span>
+                                            </div>
+                                            <div class="event-attendace">
+                                                <div class="attending">
+                                                    <span>1 going</span>
+                                                </div>
+                                                <div class="upvotes">
+                                                    <span class="upvote">
+                                                        👍
+                                                    </span>
+                                                    <span>5</span>
+                                                </div>
+                                                <div class="downvotes">
+                                                    <span class="downvote">
+                                                        👎
+                                                    </span>
+                                                    <span>2</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>HackBout 2.0</span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
-                                        </span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-
-            <li class="events-date-indicator">Saturday, May 22</li>
-            <ul class="events-listing-container">
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>HackBout 2.0</span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
-                                        </span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>HackBout 2.0</span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
-                                        </span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-
-            <li class="events-date-indicator">Sunday, May 23</li>
-            <ul class="events-listing-container">
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>HackBout 2.0</span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
-                                        </span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                
-                <li class="event-listed">
-                    <a href="">
-                        <div class="event-card">
-                            <span class="event-time">
-                                3:00 PM
-                            </span>
-                            <div class="event-card--row">
-                                <div class="event-organisor">
-                                    <span>HackClub</span>
-                                </div>
-                                <div class="event-title">
-                                    <span>HackBout 2.0</span>
-                                </div>
-                                <div class="event-attendace">
-                                    <div class="attending">
-                                        <span>1 going</span>
-                                    </div>
-                                    <div class="upvotes">
-                                        <span class="upvote">
-                                            👍
-                                        </span>
-                                        <span>5</span>
-                                    </div>
-                                    <div class="downvotes">
-                                        <span class="downvote">
-                                            👎
-                                        </span>
-                                        <span>2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </ul>
+                                </a>
+                            </li>
+                        <% } %> 
+                    <% } %> 
+                    </ul>
+                </ul>
+            <%  } %> 
+        <% } %> 
+        
     </div>
 </body>
 </html>
