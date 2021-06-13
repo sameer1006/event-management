@@ -1,14 +1,42 @@
+require('dotenv').config()
 const express= require("express");
 const mongoose=require("mongoose");
+const session=require("express-session");
+const passport=require("passport");
+const passportLocalMongoose=require("passport-local-mongoose");
  
 const app = express();
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine","ejs")
+app.use(session({
+    secret:process.env.KEY,
+    resave:false,
+    saveUninitialized:true
+}))
 
+app.use(passport.initialize())
+app.use(passport.session())
 
 mongoose.connect("mongodb://localhost:27017/eventDB",{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set("useCreateIndex",true);
+
+const userSchema=new mongoose.Schema({
+    name:String,
+    usn:String,
+    username:String,
+    password:String
+});
+
+userSchema.plugin(passportLocalMongoose);
+
+const User=new mongoose.model("User",userSchema);
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 const eventSchema= new mongoose.Schema({
     eventName:String,
@@ -21,19 +49,68 @@ const eventSchema= new mongoose.Schema({
     eventStartTime:String,
     eventEndTime:String
 })
+
 const Event= mongoose.model("Event",eventSchema);
 
-
-
-app.get("/",function(req,res){
-
-    Event.find({},function(err,foundEvents){
-        if(!err){
-            res.render("events",{events:foundEvents})
-        }
-    })
+app.get("/events",function(req,res){
+    if(req.isAuthenticated()){
+        Event.find({},function(err,foundEvents){
+            if(!err){
+                res.render("events",{events:foundEvents})
+            }
+        })
+    }
+    else{
+        res.render("signin");
+    }
 })
 
+app.get("/signup",function(req,res){
+    res.render("signup");
+})
+
+app.get("/signin",function(req,res){
+    res.render("signin");
+})
+
+
+app.get("/logout",function(req,res){
+    req.logOut();
+    res.redirect("signin")
+})
+
+app.post("/signup",function(req,res){
+    User.register({username:req.body.username,name:req.body.name,usn:req.body.usn},req.body.password,function(err,user){
+        if(err){
+            console.log("Error :"+err);
+            res.redirect("signup");
+        }
+        else{
+            passport.authenticate("local")(req,res,function(){
+                res.redirect("signin");
+            });
+        }
+    })
+});
+
+app.post("/signin",function(req,res){
+    const user=new User({
+        username:req.body.username,
+        password:req.body.password
+    });
+    req.login(user,function(err){
+        if(err){
+            console.log("signin");
+            console.log("Error :"+err);
+            res.redirect("signin");
+        }
+        else{
+            passport.authenticate("local")(req,res,function(){
+                res.redirect("/events");    
+            });
+        }
+    })
+});
 
 app.route("/eventadd")
 .get(function(req,res){
@@ -62,11 +139,11 @@ app.route("/eventadd")
             }) 
             event.save();
             console.log("Great Success")
-            res.redirect("/")
+            res.redirect("events")
         }
         else{
             console.log("Sorry cant enter")
-            res.redirect("/")
+            res.redirect("events")
         }
     })
 });
@@ -75,3 +152,9 @@ app.route("/eventadd")
 app.listen(3000,function(){
     console.log("Server started on port 3000");
 })
+
+
+//JS FOR HOMEPAGE
+
+
+
