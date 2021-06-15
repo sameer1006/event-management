@@ -48,16 +48,20 @@
                                                     <span>1 going</span>
                                                 </div>
                                                 <div class="upvotes">
-                                                    <span class="upvote">
+                                                    <span class="upvote ">
                                                         👍
                                                     </span>
-                                                    <span>5</span>
+                                                    <span class="downvotes"> <%= events[z].upVotes %> </span>
                                                 </div>
                                                 <div class="downvotes">
                                                     <span class="downvote">
                                                         👎
                                                     </span>
-                                                    <span>2</span>
+                                                    <span class="downvotes">
+                                                        <% $(".downvotes").click(function(){ %>
+                                                            <% events[z].downVotes++ %>
+                                                        <% }) %> 
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

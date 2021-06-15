@@ -1,4 +1,5 @@
 require('dotenv').config()
+var $ = require('jquery')
 const express= require("express");
 const mongoose=require("mongoose");
 const session=require("express-session");
@@ -47,7 +48,11 @@ const eventSchema= new mongoose.Schema({
     eventWeekdayDate:String,
     eventGuest:String,
     eventStartTime:String,
-    eventEndTime:String
+    eventEndTime:String,
+    upVotes:Number,
+    downVotes:Number,
+    registeredUsn:[String],
+    registerUsername:[String]
 })
 
 const Event= mongoose.model("Event",eventSchema);
@@ -135,7 +140,9 @@ app.route("/eventadd")
                 eventWeekdayDate:eventStringWeekday,
                 eventGuest:req.body.eventGuest,
                 eventStartTime:req.body.eventStartTime,
-                eventEndTime:req.body.eventEndTime
+                eventEndTime:req.body.eventEndTime,
+                upVotes:0,
+                downVotes:0
             }) 
             event.save();
             console.log("Great Success")
@@ -152,6 +159,7 @@ app.route("/eventadd")
 app.listen(3000,function(){
     console.log("Server started on port 3000");
 })
+
 
 
 //JS FOR HOMEPAGE
