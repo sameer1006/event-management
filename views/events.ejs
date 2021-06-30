@@ -5,10 +5,6 @@
             <div class="text-overlay-text">
                 Find your next event
             </div>
-            <div class="text-overlay-searchbar">
-                <input type="text" placeholder="Search">
-                <!-- search icon -->
-            </div>
         </div>
     </div>
 
@@ -41,7 +37,7 @@
                                                 <span><%= events[z].eventOrg %></span>
                                             </div>
                                             <div class="event-title">
-                                                <span><%= events[z].eventName %> </span>
+                                                <span> <a href="/showoneevent/<%= events[z].id %>"><%= events[z].eventName %></a>  </span>
                                             </div>
                                             <div class="event-attendace">
                                                 <div class="attending">
@@ -57,11 +53,7 @@
                                                     <span class="downvote">
                                                         👎
                                                     </span>
-                                                    <span class="downvotes">
-                                                        <% $(".downvotes").click(function(){ %>
-                                                            <% events[z].downVotes++ %>
-                                                        <% }) %> 
-                                                    </span>
+                                                    <span class="downvotes"> <%= events[z].downVotes++ %> </span>
                                                 </div>
                                             </div>
                                         </div>

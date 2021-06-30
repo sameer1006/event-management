@@ -1,0 +1,51 @@
+<%- include("header") -%>
+
+    <div class="event-page-banner-container">
+        <div class="text-overlay-container">
+            <div class="text-overlay-text">
+                Your Upcoming Events
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped px-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Orginisers</th>
+            <th scope="col">Date</th>
+            <th scope="col">Guest</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for(let i=0;i<events.length;i++){ %>
+            <tr>
+                <% options={year: 'numeric', month: 'long', day: 'numeric' } %> 
+                <th scope="row"><%=i+1%></th>
+                <td><%= events[i].eventName %> </td>
+                <td><%= events[i].eventOrg %> </td>
+                <td><%= events[i].eventDate.toLocaleDateString(options) %> </td>
+                <td><%= events[i].eventGuest %> </td>
+                <td><%= events[i].eventStartTime %> </td>
+                <td><%= events[i].eventEndTime %> </td>
+                <td>
+                  <a href="/eventupdate/<%= events[i].id %>"><button type="submit" class="btn btn-primary center">Update</button></a> 
+                </td>
+                <td>
+                  <form action="/eventshow/<%= events[i].id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-primary center">Delete</button>
+                  </form>
+                </td>
+              </tr>
+        <% } %>  
+        </tbody>
+      </table>
+    <script defer>
+    </script>
+    
+    </body>
+</html>

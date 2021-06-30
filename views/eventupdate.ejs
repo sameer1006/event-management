@@ -1,61 +1,60 @@
 <%- include("header") -%>
 <link rel="stylesheet" href="/public/css/eventadd.css">
-
         <div class="event-page-banner-container">
             <div class="text-overlay-container">
                 <div class="text-overlay-text">
-                    Add your next event
+                    Update your event "<%= event.eventName %>" 
                 </div>
             </div>
         </div>
-
-        <form action="/eventadd" method="POST" class="mx-5">
+        
+        <form action="/eventupdate/<%= event.id %>?_method=PUT" method="POST" class="mx-5">
             <div class="row mb-3">
               <label class="col-sm-2 col-form-label">Name of Event</label>
               <div class="col-sm-10">
-                <input type="text" name="eventName" placeholder="Enter the event Name" class="form-control" value="<%=eventOld.eventName%>" required>
+                <input type="text" name="eventName" placeholder="Enter the event Name" class="form-control" value="<%=event.eventName%>" required>
               </div>
             </div>
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Club Organising</label>
                 <div class="col-sm-10">
-                  <input type="text" name="eventOrg" placeholder="Orginiser Name" class="form-control" value="<%=eventOld.eventOrg%>">
+                  <input type="text" name="eventOrg" placeholder="Orginiser Name" class="form-control" value="<%=event.eventOrg%>">
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">When's the event?</label>
                 <div class="col-sm-10">
-                  <input type="date" name="eventDate" placeholder="Enter the date you want to oragnise it" class="form-control" value="<%=eventOld.eventDate%>">
+                  <% options={year: 'numeric', month: 'long', day: 'numeric' } %> 
+                  <input type="date" name="eventDate" placeholder="Enter the date you want to oragnise it" class="form-control" value="<%=event.eventDate%>">
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Guest of the Event</label>
                 <div class="col-sm-10">
-                  <input type="text" name="eventGuest" placeholder="Guest Name" class="form-control"value="<%= eventOld.eventGuest %>" >
+                  <input type="text" name="eventGuest" placeholder="Guest Name" class="form-control"value="<%= event.eventGuest %>" >
               
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Event Starting Time</label>
                 <div class="col-sm-10">
-                  <input type="time" name="eventStartTime" min="09:00" max="16:00" class="form-control" value="<%= eventOld.eventStartTime %>">
+                  <input type="time" name="eventStartTime" min="09:00" max="16:00" class="form-control" value="<%= event.eventStartTime %>">
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Event Ending Time</label>
                 <div class="col-sm-10">
-                  <input type="time" name="eventEndTime" min="09:00" max="16:00" class="form-control" value="<%= eventOld.eventEndTime %>">
+                  <input type="time" name="eventEndTime" min="09:00" max="16:00" class="form-control" value="<%= event.eventEndTime %>">
                 </div>
               </div>
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">Event Description</label>
                 <div class="col-sm-10">
-                  <textarea name="eventDesc" class="form-control" cols="30" rows="10"></textarea>
+                  <textarea name="eventDesc" class="form-control" cols="30" rows="10"><%= event.eventDesc %></textarea>
                 </div>
               </div>
-            <a href="/events" class="btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary center">Submit</button>
+            <a href="/eventshow" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary center">Save</button>
           </form>
     </body>
 </html>
-        

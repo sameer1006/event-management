@@ -1,13 +1,16 @@
 require('dotenv').config()
+const methodOverride=require("method-override");
 var $ = require('jquery')
 const express= require("express");
 const mongoose=require("mongoose");
 const session=require("express-session");
 const passport=require("passport");
 const passportLocalMongoose=require("passport-local-mongoose");
+const { event } = require('jquery');
  
 const app = express();
 
+app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 app.set("view engine","ejs")
@@ -40,19 +43,41 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 const eventSchema= new mongoose.Schema({
-    eventName:String,
-    eventOrg:String,
+    eventName:{
+        type:String,
+        required: true
+    },
+    eventOrg:{
+        type:String,
+        required: true
+    },
     eventDate:Date,
     eventNumDate:Number,
-    eventMonthDate:String,
-    eventWeekdayDate:String,
-    eventGuest:String,
-    eventStartTime:String,
-    eventEndTime:String,
+    eventMonthDate:{
+        type:String,
+        required: true
+    },
+    eventWeekdayDate:{
+        type:String,
+        required: true
+    },
+    eventGuest:{
+        type:String,
+        required: true
+    },
+    eventStartTime:{
+        type:String,
+        required: true
+    },
+    eventEndTime:{
+        type:String,
+        required: true
+    },
     upVotes:Number,
     downVotes:Number,
     registeredUsn:[String],
-    registerUsername:[String]
+    registerUsername:[String],
+    eventDesc:String
 })
 
 const Event= mongoose.model("Event",eventSchema);
@@ -68,6 +93,19 @@ app.get("/events",function(req,res){
     else{
         res.render("signin");
     }
+})
+
+app.get("/showoneevent/:id",async function(req,res){
+    foundEvent=await Event.findById(req.params.id)
+    res.render("showOneEvent",{event:foundEvent});
+})
+
+app.get("/eventshow",function(req,res){
+    Event.find({},function(err,foundEvents){
+        if(!err){
+            res.render("eventshow",{events:foundEvents});
+        }
+    })
 })
 
 app.get("/signup",function(req,res){
@@ -111,15 +149,34 @@ app.post("/signin",function(req,res){
         }
         else{
             passport.authenticate("local")(req,res,function(){
-                res.redirect("/events");    
+                res.redirect("events");    
             });
         }
     })
 });
+app.delete("/eventshow/:id",async function(req,res){
+    await Event.findByIdAndDelete(req.params.id);
+    res.redirect("/eventshow");
+})
+
+app.get("/eventupdate/:id",async function(req,res){
+    foundEvent=await Event.findById(req.params.id)
+    res.render("eventupdate",{event: foundEvent})
+})
+
+app.put("/eventupdate/:id",async function(req,res,next){
+    req.event = await Event.findById(req.params.id)
+    next()
+  }, saveArticleAndRedirect('eventupdate'))
+
 
 app.route("/eventadd")
 .get(function(req,res){
-    res.render("eventadd")
+    // console.log("query string", req.query);
+    // const event = JSON.parse(req.query);
+    // console.log(event);
+
+    res.render("eventadd",{eventOld: new Event()})
 })
 
 .post(function(req,res){
@@ -129,40 +186,65 @@ app.route("/eventadd")
     eventDate=eventFullDate.getDate();
     eventStringMonth=monthArr[eventFullDate.getMonth()];
     eventStringWeekday=weekDaysArr[eventFullDate.getDay()];
-    Event.findOne({eventName:req.body.eventName},function(err,foundEvent){
-        if(!foundEvent){
-            const event=new Event({
-                eventName:req.body.eventName,
-                eventOrg:req.body.eventOrg,
-                eventDate:req.body.eventDate,
-                eventNumDate:eventDate,
-                eventMonthDate:eventStringMonth,
-                eventWeekdayDate:eventStringWeekday,
-                eventGuest:req.body.eventGuest,
-                eventStartTime:req.body.eventStartTime,
-                eventEndTime:req.body.eventEndTime,
-                upVotes:0,
-                downVotes:0
-            }) 
-            event.save();
-            console.log("Great Success")
-            res.redirect("events")
-        }
-        else{
-            console.log("Sorry cant enter")
-            res.redirect("events")
-        }
+    const event=new Event({
+        eventName:req.body.eventName,
+        eventOrg:req.body.eventOrg,
+        eventDate:req.body.eventDate,
+        eventNumDate:eventDate,
+        eventMonthDate:eventStringMonth,
+        eventWeekdayDate:eventStringWeekday,
+        eventGuest:req.body.eventGuest,
+        eventStartTime:req.body.eventStartTime,
+        eventEndTime:req.body.eventEndTime,
+        eventDesc:req.body.eventDesc,
+        upVotes:0,
+        downVotes:0
+    }) ;
+    Event.findOne({eventName:req.body.eventName},async function(err,foundEvent){
+            try{
+                await event.save();
+                console.log("Great Success")
+                res.redirect("events")
+            }
+            catch(e){
+                console.log("Sorry cant enter" +e)
+                res.render("eventadd",{eventOld:event})   
+            }
     })
 });
 
+function saveArticleAndRedirect(path) {
+    return async (req, res) => {
+        let event = req.event
+        const eventFullDate= new Date(req.body.eventDate);
+        const weekDaysArr=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const monthArr=["January","February","March","April","May","June","July","August","September","October","November","December"];
+        eventDate=eventFullDate.getDate();
+        eventStringMonth=monthArr[eventFullDate.getMonth()];
+        eventStringWeekday=weekDaysArr[eventFullDate.getDay()];
+        event.eventName=req.body.eventName
+        event.ventOrg=req.body.eventOrg
+        event.eventDate=req.body.eventDate
+        event.eventNumDate=eventDate
+        event.eventMonthDate=eventStringMonth
+        event.eventWeekdayDate=eventStringWeekday
+        event.eventGuest=req.body.eventGuest
+        event.eventStartTime=req.body.eventStartTime
+        event.eventEndTime=req.body.eventEndTime
+        event.eventDesc=req.body.eventDesc
+        try {
+            event = await event.save()
+            res.redirect(`/eventshow`)
+        }catch (e) {
+            res.render(`/${path}`, { event: event })
+        }
+    }   
+}
 
 app.listen(3000,function(){
     console.log("Server started on port 3000");
 })
 
-
-
-//JS FOR HOMEPAGE
 
 
 

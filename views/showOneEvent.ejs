@@ -1,0 +1,46 @@
+<%- include("header") -%>
+
+    <div class="event-page-banner-container">
+        <div class="text-overlay-container">
+            <div class="text-overlay-text">
+                <%= event.eventName %>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped px-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Orginisers</th>
+            <th scope="col">Date</th>
+            <th scope="col">Guest</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">End Time</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <% options={year: 'numeric', month: 'long', day: 'numeric' } %> 
+                <td><%= event.eventName %> </td>
+                <td><%= event.eventOrg %> </td>
+                <td><%= event.eventDate.toLocaleDateString(options) %> </td>
+                <td><%= event.eventGuest %> </td>
+                <td><%= event.eventStartTime %> </td>
+                <td><%= event.eventEndTime %> </td>
+              </tr>
+        </tbody>
+      </table>
+
+      <div class="container px-4">
+        <div class="row gx-5">
+          <div class="col">
+           <div class="p-3 border bg-light">Custom column padding</div>
+          </div>
+          <div class="col">
+            <div class="p-3 border bg-light">Custom column padding</div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
