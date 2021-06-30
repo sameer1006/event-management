@@ -27,7 +27,6 @@
                     <% for(let z=i;z<events.length;z++){ %> 
                         <% if(events[i].eventDate.getDate()===events[z].eventDate.getDate()){ %> 
                             <li class="event-listed">
-                                <a href="">
                                     <div class="event-card">
                                         <span class="event-time">
                                             <%= events[z].eventStartTime %>
@@ -37,7 +36,7 @@
                                                 <span><%= events[z].eventOrg %></span>
                                             </div>
                                             <div class="event-title">
-                                                <span> <a href="/showoneevent/<%= events[z].id %>"><%= events[z].eventName %></a>  </span>
+                                                <span> <a class="text-decoration-none text-secondary event-title" href="/showoneevent/<%= events[z].id %>"><%= events[z].eventName %></a></span>
                                             </div>
                                             <div class="event-attendace">
                                                 <div class="attending">
@@ -58,7 +57,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </a>
                             </li>
                         <% } %> 
                     <% } %> 

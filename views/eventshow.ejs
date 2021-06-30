@@ -33,11 +33,11 @@
                 <td><%= events[i].eventStartTime %> </td>
                 <td><%= events[i].eventEndTime %> </td>
                 <td>
-                  <a href="/eventupdate/<%= events[i].id %>"><button type="submit" class="btn btn-primary center">Update</button></a> 
+                  <a href="/eventupdate/<%= events[i].id %>"><button type="submit" class="btn btn-info center">Update</button></a> 
                 </td>
                 <td>
                   <form action="/eventshow/<%= events[i].id %>?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-primary center">Delete</button>
+                    <button type="submit" class="btn btn-danger center">Delete</button>
                   </form>
                 </td>
               </tr>
