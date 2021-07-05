@@ -7,40 +7,56 @@
             </div>
         </div>
     </div>
-    <table class="table table-striped px-4">
+    <table class="table table-hover table-borderless table-responsive px-4">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Orginisers</th>
-            <th scope="col">Date</th>
-            <th scope="col">Guest</th>
-            <th scope="col">Start Time</th>
-            <th scope="col">End Time</th>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Desc</th>
           </tr>
         </thead>
         <tbody>
-            <tr>
-                <% options={year: 'numeric', month: 'long', day: 'numeric' } %> 
-                <td><%= event.eventName %> </td>
-                <td><%= event.eventOrg %> </td>
-                <td><%= event.eventDate.toLocaleDateString(options) %> </td>
-                <td><%= event.eventGuest %> </td>
-                <td><%= event.eventStartTime %> </td>
-                <td><%= event.eventEndTime %> </td>
-              </tr>
+            <tr>            
+              <td class="text-center">Event Name </td>
+              <td class="text-center"><%= event.eventName %> </td>
+            </tr>
+        </tbody>
+        <tbody>
+          <tr>            
+            <td class="text-center">Event Date </td>
+            <td class="text-center"><%= event.eventDate %> </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td class="text-center">Event Guest </td>
+            <td class="text-center"><%= event.eventGuest %> </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>            
+            <td class="text-center">Event Start Time </td>
+            <td class="text-center"><%= event.eventEndTime %> </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>            
+            <td class="text-center">Event End Time </td>
+            <td class="text-center"><%= event.eventEndTime %> </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>            
+            <td class="text-center">Registered Users </td>
+            <td class="text-center"><%= event.registerUsername.length %> </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>          
+            <td class="text-center">Event Description </td>
+            <td class="text-center"><%= event.eventDesc %> </td>
+          </tr>
         </tbody>
       </table>
-
-      <div class="container px-4">
-        <div class="row gx-5">
-          <div class="col">
-           <div class="p-3 border bg-light">Custom column padding</div>
-          </div>
-          <div class="col">
-            <div class="p-3 border bg-light">Custom column padding</div>
-          </div>
-        </div>
-      </div>
 </body>
 </html>
+

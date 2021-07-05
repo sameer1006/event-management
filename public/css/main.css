@@ -50,6 +50,10 @@
     margin-left: 1.5rem;
 }
 
+.catch-img{
+    height: 3rem;
+    width: 4rem;
+}
 
 
 @media (max-width:784px){

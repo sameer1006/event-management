@@ -86,6 +86,7 @@ app.get("/events",function(req,res){
     if(req.isAuthenticated()){
         Event.find({},function(err,foundEvents){
             if(!err){
+                console.log(req.user)
                 res.render("events",{events:foundEvents})
             }
         })
@@ -161,6 +162,7 @@ app.delete("/eventshow/:id",async function(req,res){
 
 app.get("/eventupdate/:id",async function(req,res){
     foundEvent=await Event.findById(req.params.id)
+    console.log(foundEvent.eventDate);
     res.render("eventupdate",{event: foundEvent})
 })
 
@@ -172,10 +174,6 @@ app.put("/eventupdate/:id",async function(req,res,next){
 
 app.route("/eventadd")
 .get(function(req,res){
-    // console.log("query string", req.query);
-    // const event = JSON.parse(req.query);
-    // console.log(event);
-
     res.render("eventadd",{eventOld: new Event()})
 })
 
@@ -241,9 +239,34 @@ function saveArticleAndRedirect(path) {
     }   
 }
 
+app.get("/register/:id",async function(req,res){
+    console.log("hello"+req.user.name);
+    foundEvent=await Event.findById(req.params.id)
+    res.render("register",{event: foundEvent})
+})
+
+app.put("/register/:id",async function(req,res,next){
+    req.event = await Event.findById(req.params.id)
+    next()
+  }, registerUser('register'))
+
+function registerUser(path) {
+    return async (req, res) => {
+        let event = req.event
+        event.registerUsername.push(req.user.name);
+        try {
+            event = await event.save()
+            res.redirect(`/eventshow`)
+        }catch (e) {
+            res.render(`/events`,)
+        }
+    }   
+}
+
 app.listen(3000,function(){
     console.log("Server started on port 3000");
 })
+
 
 
 
